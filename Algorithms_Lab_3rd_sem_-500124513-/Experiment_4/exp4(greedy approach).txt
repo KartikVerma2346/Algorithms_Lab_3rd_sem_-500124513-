@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+struct Activity {
+    int start, finish;
+};
+
+bool activityCompare(const Activity& a1, const Activity& a2) {
+    return a1.finish < a2.finish;
+}
+
+void activitySelection(const std::vector<Activity>& activities) {
+    if (activities.empty()) {
+        std::cout << "No activities to select.\n";
+        return;
+    }
+
+    int lastSelectedIndex = 0;
+    std::cout << "Selected Activities: \n";
+    std::cout << "(" << activities[0].start << ", " << activities[0].finish << ")\n";
+
+    for (int i = 1; i < activities.size(); i++) {
+        if (activities[i].start >= activities[lastSelectedIndex].finish) {
+            std::cout << "(" << activities[i].start << ", " << activities[i].finish << ")\n";
+            lastSelectedIndex = i;
+        }
+    }
+}
+
+int main() {
+    std::vector<Activity> activities = {{5, 9}, {1, 2}, {3, 4}, {0, 6}, {5, 7}, {8, 9}};
+    
+    std::sort(activities.begin(), activities.end(), activityCompare);
+    
+    activitySelection(activities);
+    
+    return 0;
+}
